@@ -14,7 +14,7 @@ class LoginController extends Controller
     public function create(): View|RedirectResponse
     {
         if (Auth::check()) {
-            return redirect()->route('home');
+            return redirect()->route('dashboard');
         }
 
         return view('auth.login');
@@ -23,7 +23,7 @@ class LoginController extends Controller
     public function store(Request $request): RedirectResponse
     {
         if (Auth::check()) {
-            return redirect()->route('home');
+            return redirect()->route('dashboard');
         }
 
         $credentials = $request->validate([
@@ -43,6 +43,6 @@ class LoginController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('home'));
+        return redirect()->intended(route('dashboard'));
     }
 }

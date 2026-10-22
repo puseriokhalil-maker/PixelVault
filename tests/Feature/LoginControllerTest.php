@@ -20,7 +20,7 @@ class LoginControllerTest extends TestCase
             ->assertSee('Password');
     }
 
-    public function test_valid_credentials_sign_in_and_redirect_to_home(): void
+    public function test_valid_credentials_sign_in_and_redirect_to_dashboard(): void
     {
         $user = User::factory()->create();
 
@@ -30,7 +30,7 @@ class LoginControllerTest extends TestCase
             'remember' => true,
         ]);
 
-        $response->assertRedirect(route('home'));
+        $response->assertRedirect(route('dashboard'));
         $this->assertAuthenticatedAs($user);
     }
 
