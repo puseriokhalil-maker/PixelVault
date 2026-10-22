@@ -1,6 +1,6 @@
 <article class="flex flex-col overflow-hidden rounded-[20px] border border-neutral-300 bg-white">
     <div class="flex h-[158px] items-center justify-center bg-[#e09145]" role="img" aria-label="Artwork placeholder">
-        <span class="w-[100px] text-[18px] font-semibold leading-[1.2] text-black">PLACEHOL<br>DER</span>
+        <span class="w-[90px] text-[18px] font-semibold leading-[1.2] text-black">PLACEHOLDER</span>
     </div>
 
     <div class="flex min-h-[74px] flex-col px-2 py-2">
