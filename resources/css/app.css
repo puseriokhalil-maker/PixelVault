@@ -7,3 +7,81 @@
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
+
+.artwork-thumb {
+    position: relative;
+    width: 46px;
+    height: 36px;
+    overflow: hidden;
+    border-radius: 6px;
+    background-color: #111827;
+}
+
+.artwork-thumb::before,
+.artwork-thumb::after {
+    position: absolute;
+    inset: 0;
+    content: '';
+}
+
+.artwork-thumb--neon {
+    background: radial-gradient(ellipse at 50% 50%, #39e5ff 0 5%, transparent 38%), radial-gradient(ellipse at 70% 28%, #e94cff 0 5%, transparent 45%), linear-gradient(135deg, #100b3d, #16115b 55%, #090b26);
+}
+
+.artwork-thumb--neon::before {
+    background: repeating-conic-gradient(from 20deg at 50% 50%, transparent 0 13deg, #b748ff88 14deg 16deg, transparent 17deg 31deg);
+    filter: blur(1px);
+}
+
+.artwork-thumb--drift {
+    background: linear-gradient(135deg, #f4f7ff, #b6c9f5 52%, #ece5ff);
+}
+
+.artwork-thumb--drift::before {
+    inset: 8px 2px;
+    border: 4px solid #4839d5;
+    border-radius: 45% 25% 55% 35%;
+    transform: rotate(-28deg);
+    box-shadow: 5px -2px 0 -1px #43a7ff, -4px 3px 0 -1px #8373ff;
+}
+
+.artwork-thumb--geometry {
+    background: linear-gradient(135deg, #f99d4f, #e84c28 55%, #ffc16c);
+}
+
+.artwork-thumb--geometry::before {
+    background: repeating-conic-gradient(from 10deg at 50% 50%, transparent 0 19deg, #fff3 20deg 24deg, transparent 25deg 39deg);
+}
+
+.artwork-thumb--bloom {
+    background: radial-gradient(circle at center, #ff9bd9 0 14%, #e51d8e 15% 42%, #171329 43%);
+}
+
+.artwork-thumb--bloom::before {
+    inset: 4px 12px;
+    border: 2px solid #ff57b2;
+    border-radius: 50%;
+    transform: rotate(45deg) scaleX(.48);
+    box-shadow: 0 0 8px #ff4da6;
+}
+
+.artwork-thumb--city {
+    background: linear-gradient(180deg, #15114a, #080b27);
+}
+
+.artwork-thumb--city::before {
+    background: repeating-linear-gradient(90deg, transparent 0 5px, #16cdf588 6px 7px, transparent 8px 11px), repeating-linear-gradient(0deg, transparent 0 6px, #903cff99 7px 8px, transparent 9px 13px);
+    clip-path: polygon(0 25%, 17% 25%, 17% 5%, 35% 5%, 35% 32%, 52% 32%, 52% 0, 70% 0, 70% 18%, 87% 18%, 87% 9%, 100% 9%, 100% 100%, 0 100%);
+}
+
+.artwork-thumb--machines {
+    background: radial-gradient(ellipse at 50% 100%, #e8e6dd, #b7b7ab 52%, #eeede7);
+}
+
+.artwork-thumb--machines::before {
+    inset: 9px 13px 6px;
+    border-radius: 48% 45% 25% 28%;
+    background: linear-gradient(145deg, #78d9bb, #0f806c 58%, #15554f);
+    box-shadow: 6px 2px 0 -2px #1a6a5d, -5px 1px 0 -2px #91e2c5;
+    transform: rotate(-12deg);
+}
