@@ -22,7 +22,7 @@
             <a href="/" class="transition hover:text-indigo-300">Home</a>
             <a href="#collection" class="transition hover:text-indigo-300">Gallery</a>
             <a href="#collection" class="transition hover:text-indigo-300">Cart</a>
-            <a href="#" class="rounded border border-slate-500/50 px-1.5 py-0.5 transition hover:bg-slate-700">Login</a>
+            <a href="{{ route('login') }}" class="rounded border border-slate-500/50 px-1.5 py-0.5 transition hover:bg-slate-700">Login</a>
         </div>
     </nav>
 </header>
