@@ -56,3 +56,24 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## Marketplace test setup
+
+PixelVault's catalog and purchase flow are demonstration-only. Listings are placeholders, purchases create simulated order records, and downloadable artwork files are not enabled. The application does not connect to Stripe, a bank, or any payment processor, and it does not collect or transfer money.
+
+1. To create the admin account, add credentials you control to `.env`:
+
+   ```dotenv
+   MARKETPLACE_ADMIN_EMAIL=admin@example.com
+   MARKETPLACE_ADMIN_PASSWORD=use-a-unique-password-of-at-least-12-characters
+   ```
+
+   Then prepare the database and sample catalog:
+
+   ```bash
+   php artisan migrate --seed
+   ```
+
+   If the database is already migrated, run `php artisan db:seed` after setting the credentials. If both settings are blank, no admin user is created. Keep the password private and do not commit `.env`. The account can sign in through the regular login page; admins see the protected dashboard at `/admin`.
+
+The admin dashboard totals only simulated orders. Its sales figures are theoretical reporting values, not funds owed or received.
