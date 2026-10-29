@@ -11,8 +11,12 @@
             </a>
 
             <div class="grid overflow-hidden rounded-xl border border-slate-200 bg-white lg:grid-cols-[minmax(0,1.25fr)_minmax(300px,0.75fr)]">
-                <div class="flex min-h-[320px] items-center justify-center bg-[#e09145] p-8 sm:min-h-[480px]" role="img" aria-label="Artwork image placeholder">
-                    <span class="text-center text-3xl font-semibold tracking-tight text-black sm:text-4xl">PLACEHOLDER</span>
+                <div class="flex min-h-[320px] items-center justify-center bg-[#f7f9fc] p-8 sm:min-h-[480px]">
+                    @if ($artwork->image_path)
+                        <img src="{{ asset($artwork->image_path) }}" alt="{{ $artwork->title }}" class="max-h-[480px] w-full object-contain">
+                    @else
+                        <span class="text-center text-3xl font-semibold tracking-tight text-black sm:text-4xl" role="img" aria-label="Artwork image placeholder">PLACEHOLDER</span>
+                    @endif
                 </div>
 
                 <div class="flex flex-col p-6 sm:p-8 lg:p-10">

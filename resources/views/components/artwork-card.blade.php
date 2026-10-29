@@ -1,6 +1,10 @@
 <article class="flex flex-col overflow-hidden rounded-[20px] border border-neutral-300 bg-white">
-    <div class="flex h-[158px] items-center justify-center bg-[#e09145]" role="img" aria-label="Artwork placeholder">
-        <span class="w-[90px] text-[18px] font-semibold leading-[1.2] text-black">PLACEHOLDER</span>
+    <div class="flex h-[158px] items-center justify-center bg-[#f7f9fc]">
+        @if ($artwork->image_path)
+            <img src="{{ asset($artwork->image_path) }}" alt="{{ $artwork->title }}" class="h-full w-full object-contain">
+        @else
+            <span class="w-[90px] text-[18px] font-semibold leading-[1.2] text-black" role="img" aria-label="Artwork placeholder">PLACEHOLDER</span>
+        @endif
     </div>
 
     <div class="flex min-h-[74px] flex-col px-2 py-2">

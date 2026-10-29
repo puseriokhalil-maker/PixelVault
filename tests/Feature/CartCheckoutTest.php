@@ -34,6 +34,24 @@ class CartCheckoutTest extends TestCase
             ->assertSee('Your cart is empty');
     }
 
+    public function test_cart_shows_normal_artwork_image_without_a_test_listing_badge(): void
+    {
+        $artwork = $this->createArtwork(
+            title: 'AMIGO',
+            isTestListing: false,
+            imagePath: 'artworks/amigo.png',
+        );
+
+        $this->post(route('cart.items.store', $artwork))
+            ->assertRedirect(route('cart.index'));
+
+        $this->get(route('cart.index'))
+            ->assertOk()
+            ->assertSee('AMIGO')
+            ->assertSee('src="'.asset('artworks/amigo.png').'"', false)
+            ->assertDontSee('TEST LISTING');
+    }
+
     public function test_cart_can_contain_artworks_from_multiple_artists(): void
     {
         $firstArtwork = $this->createArtwork();
@@ -125,6 +143,8 @@ class CartCheckoutTest extends TestCase
         string $slug = 'sample-artwork',
         string $title = 'Sample Artwork',
         int $priceAmount = 12500,
+        bool $isTestListing = true,
+        ?string $imagePath = null,
     ): Artwork {
         $artist ??= $this->createArtist();
 
@@ -133,10 +153,11 @@ class CartCheckoutTest extends TestCase
             'slug' => $slug,
             'title' => $title,
             'description' => 'Sample listing for cart tests.',
+            'image_path' => $imagePath,
             'category' => '2D',
             'price_amount' => $priceAmount,
             'currency' => 'php',
-            'is_test_listing' => true,
+            'is_test_listing' => $isTestListing,
             'is_published' => true,
         ]);
     }
