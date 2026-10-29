@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
     'slug',
     'title',
     'description',
+    'image_path',
     'category',
     'price_amount',
     'currency',

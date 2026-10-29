@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use InvalidArgumentException;
 
 class DatabaseSeeder extends Seeder
@@ -31,8 +32,32 @@ class DatabaseSeeder extends Seeder
             ['display_name' => 'PixelVault Test Artist'],
         );
 
+        $krimpapsUser = User::query()->firstOrCreate(
+            ['email' => 'krimpaps@pixelvault.test'],
+            [
+                'name' => 'Krimpaps',
+                'password' => Str::random(40),
+            ],
+        );
+
+        $krimpaps = Artist::query()->firstOrCreate(
+            ['user_id' => $krimpapsUser->id],
+            ['display_name' => 'Krimpaps'],
+        );
+
+        Artwork::query()->where('slug', 'sample-neon-solitude')->update(['slug' => 'amigo']);
+
         $artworks = [
-            ['slug' => 'sample-neon-solitude', 'title' => 'Neon Solitude', 'category' => '2D', 'price_amount' => 10000],
+            [
+                'slug' => 'amigo',
+                'title' => 'AMIGO',
+                'description' => 'Meme Amigo',
+                'image_path' => 'artworks/amigo.png',
+                'artist_id' => $krimpaps->id,
+                'category' => '2D',
+                'price_amount' => 10000,
+                'is_test_listing' => false,
+            ],
             ['slug' => 'sample-chromatic-drift', 'title' => 'Chromatic Drift', 'category' => '3D', 'price_amount' => 15000],
             ['slug' => 'sample-quiet-geometry', 'title' => 'Quiet Geometry', 'category' => 'Vector', 'price_amount' => 18000],
             ['slug' => 'sample-digital-bloom', 'title' => 'Digital Bloom', 'category' => '2D', 'price_amount' => 22000],
@@ -48,10 +73,11 @@ class DatabaseSeeder extends Seeder
                 ['slug' => $artwork['slug']],
                 [
                     ...$artwork,
-                    'artist_id' => $artist->id,
-                    'description' => 'A sample digital artwork listing for testing the PixelVault marketplace. The final artwork and product details will replace this preview.',
+                    'artist_id' => $artwork['artist_id'] ?? $artist->id,
+                    'description' => $artwork['description'] ?? 'A sample digital artwork listing for testing the PixelVault marketplace. The final artwork and product details will replace this preview.',
+                    'image_path' => $artwork['image_path'] ?? null,
                     'currency' => 'php',
-                    'is_test_listing' => true,
+                    'is_test_listing' => $artwork['is_test_listing'] ?? true,
                     'is_published' => true,
                 ],
             );

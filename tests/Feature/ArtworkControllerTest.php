@@ -10,19 +10,20 @@ class ArtworkControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_gallery_search_and_category_filters_query_sample_artworks(): void
+    public function test_gallery_search_and_category_filters_query_artworks(): void
     {
         $this->seed(DatabaseSeeder::class);
 
-        $this->get(route('home', ['q' => 'Neon']))
+        $this->get(route('home', ['q' => 'AMIGO']))
             ->assertOk()
-            ->assertSee('Neon Solitude')
+            ->assertSee('AMIGO')
+            ->assertSee('Krimpaps')
             ->assertDontSee('Chromatic Drift');
 
         $this->get(route('home', ['category' => 'Pixel Art']))
             ->assertOk()
             ->assertSee('Midnight City')
-            ->assertDontSee('Neon Solitude');
+            ->assertDontSee('AMIGO');
     }
 
     public function test_gallery_cards_link_to_the_database_backed_detail_pages(): void
@@ -31,9 +32,25 @@ class ArtworkControllerTest extends TestCase
 
         $this->get(route('home'))
             ->assertOk()
-            ->assertSee(route('artworks.show', 'sample-neon-solitude'))
+            ->assertSee(route('artworks.show', 'amigo'))
             ->assertSee('View Details')
-            ->assertSee('TEST LISTING');
+            ->assertSee('AMIGO')
+            ->assertSee('Krimpaps')
+            ->assertSee('src="'.asset('artworks/amigo.png').'"', false);
+    }
+
+    public function test_amigo_detail_page_shows_its_image_details_and_no_test_listing_notice(): void
+    {
+        $this->seed(DatabaseSeeder::class);
+
+        $this->get(route('artworks.show', 'amigo'))
+            ->assertOk()
+            ->assertSee('AMIGO')
+            ->assertSee('Krimpaps')
+            ->assertSee('2D')
+            ->assertSee('Meme Amigo')
+            ->assertSee('src="'.asset('artworks/amigo.png').'"', false)
+            ->assertDontSee('TEST LISTING');
     }
 
     public function test_artwork_detail_page_shows_the_selected_placeholder_listing(): void
