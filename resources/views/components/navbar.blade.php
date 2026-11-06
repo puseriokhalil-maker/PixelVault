@@ -1,7 +1,9 @@
 <header class="h-[50px] bg-[#1e293b] text-white">
     <nav class="mx-auto flex h-full max-w-[1440px] items-center justify-between gap-4 px-4 sm:px-6">
         <a href="{{ route('home') }}" class="flex shrink-0 items-center gap-3" aria-label="PixelVault home">
-            <span class="h-6 w-6 rounded bg-[#d9d9dc]"></span>
+            <span class="flex h-12 w-12 items-center justify-center rounded p-0.5">
+                <img src="{{ asset('images/pixelvault-logo.png') }}" alt="" class="h-full w-full object-contain">
+            </span>
             <span class="text-xs font-medium tracking-wide">PixelVault</span>
         </a>
 
@@ -37,6 +39,10 @@
                 <span class="flex h-7 w-7 items-center justify-center rounded-full bg-indigo-600 text-[10px] font-semibold" aria-label="Signed in as {{ auth()->user()->name }}">
                     {{ mb_strtoupper(mb_substr(auth()->user()->name, 0, 1)) }}
                 </span>
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" class="rounded border border-slate-500/50 px-2 py-1 transition hover:bg-slate-700">Logout</button>
+                </form>
             @endguest
         </div>
     </nav>
