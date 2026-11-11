@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Artist;
 use App\Models\Order;
 use Illuminate\View\View;
 
@@ -14,6 +15,7 @@ class AdminDashboardController extends Controller
         return view('admin.dashboard', [
             'simulatedSalesTotal' => (int) (clone $simulatedOrders)->sum('total_amount'),
             'simulatedOrderCount' => (clone $simulatedOrders)->count(),
+            'artists' => Artist::query()->orderBy('display_name')->get(['id', 'display_name']),
             'orders' => $simulatedOrders
                 ->with(['artist', 'items', 'user'])
                 ->latest('id')

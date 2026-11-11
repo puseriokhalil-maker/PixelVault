@@ -7,13 +7,30 @@
         <div class="mx-auto max-w-6xl">
             <div class="mb-6">
                 <p class="mb-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-indigo-600">PixelVault Admin</p>
-                <h1 class="text-2xl font-semibold tracking-tight text-slate-900">Simulated sales</h1>
-                <p class="mt-1 text-sm text-slate-500">A record of demo orders created by users.</p>
+                <div class="flex flex-wrap items-end justify-between gap-4">
+                    <div>
+                        <h1 class="text-2xl font-semibold tracking-tight text-slate-900">Simulated sales</h1>
+                        <p class="mt-1 text-sm text-slate-500">A record of demo orders created by users.</p>
+                    </div>
+                    <a href="{{ route('admin.artworks.create') }}" class="inline-flex h-9 items-center justify-center rounded-md bg-indigo-600 px-4 text-xs font-semibold text-white transition hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                        Add artwork
+                    </a>
+                </div>
             </div>
+
+            @if (session('status'))
+                <p role="status" class="mb-5 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-xs text-emerald-800">{{ session('status') }}</p>
+            @endif
 
             <p role="note" class="mb-5 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-xs leading-5 text-amber-900">
                 Demo figures only. These totals are not money received, payable, or held by PixelVault. No payment processor or bank is connected.
             </p>
+
+            @if ($artists->isEmpty())
+                <p role="note" class="mb-5 rounded-lg border border-sky-200 bg-sky-50 px-4 py-3 text-xs text-sky-800">
+                    Add an artist account before creating gallery listings.
+                </p>
+            @endif
 
             <div class="mb-5 grid gap-4 sm:grid-cols-2">
                 <article class="rounded-xl border border-slate-200 bg-white p-5">

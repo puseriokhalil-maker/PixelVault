@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminArtworkController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\ArtworkController;
 use App\Http\Controllers\Auth\LoginController;
@@ -37,6 +38,8 @@ Route::middleware('auth')->group(function (): void {
     Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
 });
 
-Route::get('/admin', AdminDashboardController::class)
-    ->middleware(['auth', 'can:view-admin-dashboard'])
-    ->name('admin.dashboard');
+Route::middleware(['auth', 'can:view-admin-dashboard'])->group(function (): void {
+    Route::get('/admin', AdminDashboardController::class)->name('admin.dashboard');
+    Route::get('/admin/artworks/create', [AdminArtworkController::class, 'create'])->name('admin.artworks.create');
+    Route::post('/admin/artworks', [AdminArtworkController::class, 'store'])->name('admin.artworks.store');
+});
