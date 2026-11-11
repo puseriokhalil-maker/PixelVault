@@ -40,8 +40,6 @@
             <button type="submit" class="h-9 rounded-md bg-indigo-600 px-3 text-xs font-semibold text-white">Search</button>
         </form>
 
-        <p class="mb-4 text-[10px] text-amber-700">Sample listings and test prices only; no real artwork is being sold yet.</p>
-
         <div class="mb-6 flex items-center gap-2.5 overflow-x-auto pb-0.5" aria-label="Filter by category">
             <a href="{{ route('home', array_filter(['q' => request('q')])) }}" @class(['shrink-0 rounded-full px-3.5 py-1.5 text-[10px] font-medium', 'bg-indigo-600 text-white' => ! request('category'), 'border border-slate-200 text-slate-600 transition hover:bg-slate-50' => request('category')]) aria-current="{{ request('category') ? 'false' : 'true' }}">All</a>
             @foreach ($categories as $category)
@@ -56,7 +54,13 @@
         </div>
 
         @if ($artworks->isEmpty())
-            <p class="rounded-lg border border-dashed border-slate-200 px-5 py-10 text-center text-sm text-slate-500">No artworks match your search. Try another name or category.</p>
+            <p class="rounded-lg border border-dashed border-slate-200 px-5 py-10 text-center text-sm text-slate-500">
+                @if (request()->filled('q') || request()->filled('category'))
+                    No artworks match your search. Try another name or category.
+                @else
+                    No artworks have been added yet.
+                @endif
+            </p>
         @endif
     </section>
 @endsection

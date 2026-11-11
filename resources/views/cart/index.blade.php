@@ -32,16 +32,11 @@
                                 <div class="flex h-24 w-full items-center justify-center rounded-md bg-[#f7f9fc] sm:h-20 sm:w-28 sm:shrink-0">
                                     @if ($artwork->image_path)
                                         <img src="{{ $artwork->image_url }}" alt="{{ $artwork->title }}" class="h-full w-full object-contain">
-                                    @else
-                                        <span class="text-xs font-semibold text-black" role="img" aria-label="Artwork preview placeholder">PLACEHOLDER</span>
                                     @endif
                                 </div>
                                 <div class="min-w-0 flex-1">
                                     <h2 class="truncate text-sm font-semibold text-slate-900">{{ $artwork->title }}</h2>
                                     <p class="mt-1 text-xs text-slate-500">by {{ $artwork->artist->display_name }} · {{ $artwork->category }}</p>
-                                    @if ($artwork->is_test_listing)
-                                        <span class="mt-2 inline-block rounded bg-amber-50 px-2 py-1 text-[9px] font-medium text-amber-800">TEST LISTING</span>
-                                    @endif
                                 </div>
                                 <div class="flex items-center justify-between gap-4 sm:flex-col sm:items-end">
                                     <p class="text-sm font-semibold text-slate-900">PHP {{ number_format($artwork->price_amount / 100, 2) }}</p>

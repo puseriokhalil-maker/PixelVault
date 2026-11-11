@@ -23,7 +23,6 @@
                     Discover independent artists. Collect original digital pieces. Find what moves you.
                 </p>
 
-                @include('components.auth-artwork-feature')
             </div>
         </section>
 

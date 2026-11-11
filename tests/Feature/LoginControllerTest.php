@@ -17,7 +17,9 @@ class LoginControllerTest extends TestCase
         $response->assertOk()
             ->assertSee('Welcome back')
             ->assertSee('Email address')
-            ->assertSee('Password');
+            ->assertSee('Password')
+            ->assertDontSee('AMIGO')
+            ->assertDontSee('Krimpaps');
     }
 
     public function test_valid_credentials_sign_in_and_redirect_to_dashboard(): void

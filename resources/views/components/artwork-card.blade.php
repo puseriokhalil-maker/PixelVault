@@ -2,8 +2,6 @@
     <div class="flex h-[158px] items-center justify-center bg-[#f7f9fc]">
         @if ($artwork->image_path)
             <img src="{{ $artwork->image_url }}" alt="{{ $artwork->title }}" class="h-full w-full object-contain">
-        @else
-            <span class="w-[90px] text-[18px] font-semibold leading-[1.2] text-black" role="img" aria-label="Artwork placeholder">PLACEHOLDER</span>
         @endif
     </div>
 
@@ -19,8 +17,15 @@
             <span class="font-semibold text-black">{{ $artwork->category }}</span>
             <a href="{{ route('artworks.show', $artwork) }}" class="shrink-0 text-indigo-600 transition hover:underline" aria-label="View details for {{ $artwork->title }}">View Details &gt;</a>
         </div>
-        @if ($artwork->is_test_listing)
-            <div class="border-t border-neutral-100 px-2 py-1 text-[9px] font-medium text-amber-700">TEST LISTING — SAMPLE ARTWORK</div>
+        @can('update', $artwork)
+            <div class="mt-3 flex items-center gap-3 border-t border-neutral-100 pt-2 text-[10px]">
+                <a href="{{ route('artworks.edit', $artwork) }}" class="font-medium text-indigo-600 transition hover:underline">Edit</a>
+                <form method="POST" action="{{ auth()->user()->is_admin ? route('admin.artworks.destroy', $artwork) : route('artworks.destroy', $artwork) }}">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="font-medium text-red-600 transition hover:underline">Delete</button>
+                </form>
+            </div>
         @endif
     </div>
 </article>

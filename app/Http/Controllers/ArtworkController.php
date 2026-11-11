@@ -21,6 +21,7 @@ class ArtworkController extends Controller
         $artworks = Artwork::query()
             ->with('artist')
             ->where('is_published', true)
+            ->where('is_test_listing', false)
             ->when($filters['q'] ?? null, function ($query, string $search): void {
                 $query->where(function ($query) use ($search): void {
                     $query->where('title', 'like', '%'.$search.'%')
@@ -40,7 +41,7 @@ class ArtworkController extends Controller
 
     public function show(Artwork $artwork): View
     {
-        abort_unless($artwork->is_published, 404);
+        abort_unless($artwork->is_published && ! $artwork->is_test_listing, 404);
 
         return view('artworks.show', [
             'artwork' => $artwork->load('artist'),

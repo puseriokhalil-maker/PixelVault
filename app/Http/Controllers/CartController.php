@@ -22,7 +22,7 @@ class CartController extends Controller
 
     public function store(Artwork $artwork, CartService $cart): RedirectResponse
     {
-        abort_unless($artwork->is_published, 404);
+        abort_unless($artwork->is_published && ! $artwork->is_test_listing, 404);
 
         $cart->add($artwork);
 

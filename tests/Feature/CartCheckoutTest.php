@@ -24,7 +24,7 @@ class CartCheckoutTest extends TestCase
             ->assertOk()
             ->assertSee('PHP 125.00')
             ->assertSee('Order summary')
-            ->assertSee('TEST LISTING')
+            ->assertDontSee('TEST LISTING')
             ->assertSee('no money is collected or transferred');
 
         $this->delete(route('cart.items.destroy', $artwork))
@@ -50,6 +50,16 @@ class CartCheckoutTest extends TestCase
             ->assertSee('AMIGO')
             ->assertSee('src="'.asset('artworks/amigo.png').'"', false)
             ->assertDontSee('TEST LISTING');
+    }
+
+    public function test_test_listings_cannot_be_added_to_the_cart(): void
+    {
+        $artwork = $this->createArtwork(isTestListing: true);
+
+        $this->post(route('cart.items.store', $artwork))
+            ->assertNotFound();
+
+        $this->assertSame([], session('pixelvault.cart', []));
     }
 
     public function test_cart_can_contain_artworks_from_multiple_artists(): void
@@ -143,7 +153,7 @@ class CartCheckoutTest extends TestCase
         string $slug = 'sample-artwork',
         string $title = 'Sample Artwork',
         int $priceAmount = 12500,
-        bool $isTestListing = true,
+        bool $isTestListing = false,
         ?string $imagePath = null,
     ): Artwork {
         $artist ??= $this->createArtist();

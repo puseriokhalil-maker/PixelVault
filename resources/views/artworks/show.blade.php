@@ -14,8 +14,6 @@
                 <div class="flex min-h-[320px] items-center justify-center bg-[#f7f9fc] p-8 sm:min-h-[480px]">
                     @if ($artwork->image_path)
                         <img src="{{ $artwork->image_url }}" alt="{{ $artwork->title }}" class="max-h-[480px] w-full object-contain">
-                    @else
-                        <span class="text-center text-3xl font-semibold tracking-tight text-black sm:text-4xl" role="img" aria-label="Artwork image placeholder">PLACEHOLDER</span>
                     @endif
                 </div>
 
@@ -34,8 +32,15 @@
                         <p class="mt-2 text-sm leading-6 text-slate-600">{{ $artwork->description }}</p>
                     </section>
 
-                    @if ($artwork->is_test_listing)
-                        <p class="mt-6 rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-[11px] font-medium leading-5 text-amber-800">TEST LISTING — SAMPLE ARTWORK AND TEST PRICE. No real artwork is being sold.</p>
+                    @can('update', $artwork)
+                        <div class="mt-6 flex items-center gap-4">
+                            <a href="{{ route('artworks.edit', $artwork) }}" class="inline-flex h-9 items-center rounded-md border border-indigo-200 px-4 text-xs font-semibold text-indigo-700 transition hover:bg-indigo-50">Edit artwork</a>
+                            <form method="POST" action="{{ auth()->user()->is_admin ? route('admin.artworks.destroy', $artwork) : route('artworks.destroy', $artwork) }}">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="text-xs font-medium text-red-600 transition hover:underline">Delete artwork</button>
+                            </form>
+                        </div>
                     @endif
 
                     <form method="POST" action="{{ route('cart.items.store', $artwork) }}" class="mt-auto pt-8">
