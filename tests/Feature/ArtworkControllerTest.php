@@ -89,6 +89,12 @@ class ArtworkControllerTest extends TestCase
         $user = User::factory()->create(['name' => 'Artwork Creator']);
         $otherArtist = $this->createArtist('Someone Else');
 
+        $this->actingAs($user)
+            ->get(route('artworks.create'))
+            ->assertOk()
+            ->assertSee('action="'.route('artworks.store').'"', false);
+        $this->assertSame('/my-artworks', parse_url(route('artworks.store'), PHP_URL_PATH));
+
         $response = $this->actingAs($user)->post(route('artworks.store'), [
             'artist_id' => $otherArtist->id,
             'title' => 'First Artwork',
@@ -161,6 +167,16 @@ class ArtworkControllerTest extends TestCase
         $this->delete(route('admin.artworks.destroy', $ownerArtwork))
             ->assertForbidden();
 
+        $this->get(route('admin.artworks.edit', $ownerArtwork))
+            ->assertForbidden();
+
+        $this->put(route('admin.artworks.update', $ownerArtwork), [
+            'title' => 'Changed by another user',
+            'description' => 'This should not be saved.',
+            'category' => 'Vector',
+            'price' => '9.99',
+        ])->assertForbidden();
+
         $ownerArtwork->refresh();
         $this->assertModelExists($ownerArtwork);
         $this->assertSame('Owner Artwork', $ownerArtwork->fresh()->title);
@@ -175,7 +191,12 @@ class ArtworkControllerTest extends TestCase
         Storage::disk('public')->put('artworks/owner.png', 'image');
 
         $this->actingAs($admin)
-            ->put(route('artworks.update', $artwork), [
+            ->get(route('admin.artworks.edit', $artwork))
+            ->assertOk()
+            ->assertSee('Edit artwork');
+
+        $this->actingAs($admin)
+            ->put(route('admin.artworks.update', $artwork), [
                 'title' => 'Admin Updated Artwork',
                 'description' => 'Updated by an admin.',
                 'category' => 'Vector',

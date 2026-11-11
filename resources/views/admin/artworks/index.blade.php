@@ -46,7 +46,7 @@
                                         <td class="px-5 py-4">{{ $artwork->is_published ? 'Published' : 'Unpublished' }}</td>
                                         <td class="px-5 py-4">
                                             <div class="flex items-center justify-end gap-4">
-                                                <a href="{{ route('artworks.edit', $artwork) }}" class="font-medium text-indigo-600 transition hover:underline">Edit</a>
+                                                <a href="{{ route('admin.artworks.edit', $artwork) }}" class="font-medium text-indigo-600 transition hover:underline">Edit</a>
                                                 <form method="POST" action="{{ route('admin.artworks.destroy', $artwork) }}">
                                                     @csrf
                                                     @method('DELETE')

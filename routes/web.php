@@ -20,7 +20,7 @@ Route::get('/artworks', function () {
 Route::get('/artworks/create', [MyArtworkController::class, 'create'])
     ->middleware('auth')
     ->name('artworks.create');
-Route::post('/artworks', [MyArtworkController::class, 'store'])
+Route::post('/my-artworks', [MyArtworkController::class, 'store'])
     ->middleware('auth')
     ->name('artworks.store');
 Route::get('/my-artworks', [MyArtworkController::class, 'index'])
@@ -58,6 +58,7 @@ Route::middleware('auth')->group(function (): void {
     Route::post('/logout', LogoutController::class)->name('logout');
     Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
     Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
+
 });
 
 Route::middleware(['auth', 'can:view-admin-dashboard'])->group(function (): void {
@@ -65,5 +66,7 @@ Route::middleware(['auth', 'can:view-admin-dashboard'])->group(function (): void
     Route::get('/admin/artworks', [AdminArtworkController::class, 'index'])->name('admin.artworks.index');
     Route::get('/admin/artworks/create', [AdminArtworkController::class, 'create'])->name('admin.artworks.create');
     Route::post('/admin/artworks', [AdminArtworkController::class, 'store'])->name('admin.artworks.store');
+    Route::get('/admin/artworks/{artwork:slug}/edit', [AdminArtworkController::class, 'edit'])->name('admin.artworks.edit');
+    Route::put('/admin/artworks/{artwork:slug}', [AdminArtworkController::class, 'update'])->name('admin.artworks.update');
     Route::delete('/admin/artworks/{artwork:slug}', [AdminArtworkController::class, 'destroy'])->name('admin.artworks.destroy');
 });
