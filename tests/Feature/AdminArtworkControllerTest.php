@@ -56,14 +56,14 @@ class AdminArtworkControllerTest extends TestCase
                 'image' => $image,
             ]);
 
-        $response->assertRedirect(route('admin.dashboard'));
+        $response->assertRedirect(route('admin.artworks.index'));
         $response->assertSessionHas('status', 'Artwork added to the gallery.');
 
         $artwork = Artwork::query()->where('slug', 'new-digital-art')->firstOrFail();
         $this->assertModelExists($artwork);
         $this->assertSame($artist->id, $artwork->artist_id);
         $this->assertSame(10025, $artwork->price_amount);
-        $this->assertTrue($artwork->is_test_listing);
+        $this->assertFalse($artwork->is_test_listing);
         $this->assertTrue($artwork->is_published);
 
         $storedImagePath = str_replace('storage/', '', $artwork->image_path);
@@ -78,7 +78,6 @@ class AdminArtworkControllerTest extends TestCase
         $this->get(route('artworks.show', $artwork))
             ->assertOk()
             ->assertSee('A newly uploaded piece for the gallery.')
-            ->assertSee('TEST LISTING')
             ->assertSee('src="'.$artwork->image_url.'"', false);
     }
 
@@ -100,7 +99,8 @@ class AdminArtworkControllerTest extends TestCase
             ->assertSee('Existing Artist')
             ->assertSee('Artwork image')
             ->assertSee('Price (PHP)')
-            ->assertSee('Add to gallery');
+            ->assertSee('Add to gallery')
+            ->assertDontSee('test listing');
     }
 
     public function test_admin_cannot_create_a_listing_with_an_invalid_image_or_price(): void
@@ -131,6 +131,55 @@ class AdminArtworkControllerTest extends TestCase
 
         $this->assertDatabaseCount('artworks', 0);
         Storage::disk('public')->assertEmpty();
+    }
+
+    public function test_admin_can_create_an_artwork_using_their_own_artist_profile(): void
+    {
+        Storage::fake('public');
+        $admin = User::factory()->create(['is_admin' => true]);
+
+        $this->actingAs($admin)
+            ->post(route('admin.artworks.store'), [
+                'artist_id' => '',
+                'title' => 'Admin Artwork',
+                'description' => 'Added by the admin.',
+                'category' => '2D',
+                'price' => '30.00',
+                'image' => $this->pngImage(),
+            ])
+            ->assertRedirect(route('admin.artworks.index'));
+
+        $artwork = Artwork::query()->where('slug', 'admin-artwork')->firstOrFail();
+        $this->assertSame($admin->id, $artwork->artist->user_id);
+        $this->assertFalse($artwork->is_test_listing);
+    }
+
+    public function test_admin_artwork_management_page_includes_unpublished_artworks(): void
+    {
+        $admin = User::factory()->create(['is_admin' => true]);
+        $artistUser = User::factory()->create();
+        $artist = Artist::query()->create([
+            'user_id' => $artistUser->id,
+            'display_name' => 'Existing Artist',
+        ]);
+        Artwork::query()->create([
+            'artist_id' => $artist->id,
+            'slug' => 'unpublished-artwork',
+            'title' => 'Unpublished Artwork',
+            'description' => 'A previously unpublished listing.',
+            'image_path' => null,
+            'category' => '2D',
+            'price_amount' => 10000,
+            'currency' => 'php',
+            'is_test_listing' => false,
+            'is_published' => false,
+        ]);
+
+        $this->actingAs($admin)
+            ->get(route('admin.artworks.index'))
+            ->assertOk()
+            ->assertSee('Unpublished Artwork')
+            ->assertSee('Unpublished');
     }
 
     private function pngImage(): UploadedFile

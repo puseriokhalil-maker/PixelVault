@@ -5,10 +5,16 @@
 @section('content')
     <section class="min-h-[calc(100vh-50px)] bg-[#f7f9fc] px-4 py-8 sm:px-6 sm:py-10">
         <div class="mx-auto max-w-6xl">
-            <div class="mb-7">
-                <p class="mb-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-indigo-600">Your PixelVault</p>
-                <h1 class="text-2xl font-semibold tracking-tight text-slate-900">My account</h1>
-                <p class="mt-1 text-sm text-slate-500">Welcome back, {{ auth()->user()->name }}. Your art collection starts here.</p>
+            <div class="mb-7 flex flex-wrap items-end justify-between gap-4">
+                <div>
+                    <p class="mb-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-indigo-600">Your PixelVault</p>
+                    <h1 class="text-2xl font-semibold tracking-tight text-slate-900">My account</h1>
+                    <p class="mt-1 text-sm text-slate-500">Welcome back, {{ auth()->user()->name }}. Your art collection starts here.</p>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    <a href="{{ route('artworks.mine') }}" class="inline-flex h-9 items-center justify-center rounded-md border border-slate-300 bg-white px-4 text-xs font-semibold text-slate-700 transition hover:bg-slate-50">My artworks</a>
+                    <a href="{{ route('artworks.create') }}" class="inline-flex h-9 items-center justify-center rounded-md bg-indigo-600 px-4 text-xs font-semibold text-white transition hover:bg-indigo-700">Add artwork</a>
+                </div>
             </div>
 
             @if (session('status'))

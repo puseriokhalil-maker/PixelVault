@@ -1,10 +1,10 @@
-<header class="h-[50px] bg-[#1e293b] text-white">
+<header class="h-16 bg-[#1e293b] text-white">
     <nav class="mx-auto flex h-full max-w-[1440px] items-center justify-between gap-4 px-4 sm:px-6">
         <a href="{{ route('home') }}" class="flex shrink-0 items-center gap-3" aria-label="PixelVault home">
-            <span class="flex h-12 w-12 items-center justify-center rounded p-0.5">
+            <span class="flex h-10 w-10 items-center justify-center rounded-md bg-white p-1">
                 <img src="{{ asset('images/pixelvault-logo.png') }}" alt="" class="h-full w-full object-contain">
             </span>
-            <span class="text-xs font-medium tracking-wide">PixelVault</span>
+            <span class="text-sm font-semibold tracking-wide">PixelVault</span>
         </a>
 
         <form method="GET" action="{{ route('home') }}" class="hidden h-7 w-full max-w-[328px] items-center gap-2 rounded-md border border-slate-500/40 bg-slate-700 px-2 text-slate-400 sm:flex">

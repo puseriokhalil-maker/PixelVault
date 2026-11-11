@@ -28,8 +28,8 @@
                 <div class="grid gap-5 sm:grid-cols-2">
                     <div class="sm:col-span-2">
                         <label for="artist_id" class="mb-1.5 block text-xs font-medium text-slate-700">Artist</label>
-                        <select id="artist_id" name="artist_id" required class="h-10 w-full rounded-md border border-slate-300 bg-white px-3 text-sm text-slate-700 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100">
-                            <option value="">Choose an artist</option>
+                        <select id="artist_id" name="artist_id" class="h-10 w-full rounded-md border border-slate-300 bg-white px-3 text-sm text-slate-700 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100">
+                            <option value="" @selected(blank(old('artist_id', $defaultArtistId)))>Use my admin profile</option>
                             @foreach ($artists as $artist)
                                 <option value="{{ $artist->id }}" @selected(old('artist_id') == $artist->id)>{{ $artist->display_name }}</option>
                             @endforeach
@@ -37,9 +37,6 @@
                         @error('artist_id')
                             <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
                         @enderror
-                        @if ($artists->isEmpty())
-                            <p class="mt-1 text-xs text-amber-700">There are no artists yet. Add an artist account before creating a listing.</p>
-                        @endif
                     </div>
 
                     <div class="sm:col-span-2">
@@ -89,18 +86,9 @@
                     </div>
                 </div>
 
-                <label class="flex items-start gap-2.5 rounded-md border border-slate-200 bg-slate-50 p-3">
-                    <input type="hidden" name="is_test_listing" value="0">
-                    <input type="checkbox" name="is_test_listing" value="1" @checked(old('is_test_listing', true)) class="mt-0.5 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500">
-                    <span>
-                        <span class="block text-xs font-medium text-slate-700">Mark as a sample / test listing</span>
-                        <span class="mt-0.5 block text-[11px] text-slate-500">Displays a sample-artwork notice on the gallery card and detail page.</span>
-                    </span>
-                </label>
-
                 <div class="flex flex-wrap justify-end gap-3 border-t border-slate-100 pt-5">
                     <a href="{{ route('admin.dashboard') }}" class="inline-flex h-10 items-center justify-center rounded-md border border-slate-300 px-4 text-xs font-medium text-slate-600 transition hover:bg-slate-50">Cancel</a>
-                    <button type="submit" @disabled($artists->isEmpty()) class="inline-flex h-10 items-center justify-center rounded-md bg-indigo-600 px-5 text-xs font-semibold text-white transition hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">Add to gallery</button>
+                    <button type="submit" class="inline-flex h-10 items-center justify-center rounded-md bg-indigo-600 px-5 text-xs font-semibold text-white transition hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Add to gallery</button>
                 </div>
             </form>
         </div>

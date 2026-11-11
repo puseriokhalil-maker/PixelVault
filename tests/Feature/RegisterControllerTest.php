@@ -17,7 +17,10 @@ class RegisterControllerTest extends TestCase
             ->assertOk()
             ->assertSee('Create your account')
             ->assertSee('Confirm password')
-            ->assertSee(route('register.store'));
+            ->assertSee(route('register.store'))
+            ->assertDontSee('AMIGO')
+            ->assertDontSee('Krimpaps')
+            ->assertDontSee('components.auth-artwork-feature');
     }
 
     public function test_valid_registration_creates_and_authenticates_a_user(): void
