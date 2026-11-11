@@ -31,7 +31,7 @@
                             <article class="flex flex-col gap-4 p-4 sm:flex-row sm:items-center sm:p-5">
                                 <div class="flex h-24 w-full items-center justify-center rounded-md bg-[#f7f9fc] sm:h-20 sm:w-28 sm:shrink-0">
                                     @if ($artwork->image_path)
-                                        <img src="{{ asset($artwork->image_path) }}" alt="{{ $artwork->title }}" class="h-full w-full object-contain">
+                                        <img src="{{ $artwork->image_url }}" alt="{{ $artwork->title }}" class="h-full w-full object-contain">
                                     @else
                                         <span class="text-xs font-semibold text-black" role="img" aria-label="Artwork preview placeholder">PLACEHOLDER</span>
                                     @endif
