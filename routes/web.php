@@ -42,7 +42,6 @@ Route::delete('/cart/{artwork:slug}', [CartController::class, 'destroy'])->name(
 
 Route::get('/login', [LoginController::class, 'create'])->name('login');
 Route::post('/login', [LoginController::class, 'store'])
-    ->middleware('throttle:5,1')
     ->name('login.store');
 
 Route::get('/register', [RegisterController::class, 'create'])->name('register');
