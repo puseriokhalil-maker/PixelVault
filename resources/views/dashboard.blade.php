@@ -20,6 +20,19 @@
             @if (session('status'))
                 <p role="status" class="mb-5 rounded-md border border-emerald-200 bg-emerald-50 px-4 py-3 text-xs text-emerald-800">{{ session('status') }}</p>
             @endif
+
+            <nav aria-label="User dashboard" class="mb-5 overflow-x-auto rounded-xl border border-slate-200 bg-white p-2">
+                <div class="flex min-w-max items-center gap-1">
+                    <a href="{{ route('dashboard') }}" aria-current="page" class="rounded-md bg-indigo-600 px-3 py-2 text-xs font-semibold text-white">Overview</a>
+                    <a href="#account-details-heading" class="rounded-md px-3 py-2 text-xs font-semibold text-slate-600 transition hover:bg-slate-100 hover:text-slate-900">My Profile</a>
+                    <a href="#library-heading" class="rounded-md px-3 py-2 text-xs font-semibold text-slate-600 transition hover:bg-slate-100 hover:text-slate-900">My Purchases</a>
+                    <a href="{{ route('owned-nfts.index') }}" class="rounded-md px-3 py-2 text-xs font-semibold text-slate-600 transition hover:bg-slate-100 hover:text-slate-900">Owned NFTs</a>
+                    <a href="{{ route('artworks.mine') }}" class="rounded-md px-3 py-2 text-xs font-semibold text-slate-600 transition hover:bg-slate-100 hover:text-slate-900">My Listings</a>
+                    <a href="#orders-heading" class="rounded-md px-3 py-2 text-xs font-semibold text-slate-600 transition hover:bg-slate-100 hover:text-slate-900">Transaction History</a>
+                    <a href="#account-details-heading" class="rounded-md px-3 py-2 text-xs font-semibold text-slate-600 transition hover:bg-slate-100 hover:text-slate-900">Settings</a>
+                </div>
+            </nav>
+
             <div class="grid gap-5 lg:grid-cols-[minmax(0,1fr)_320px]">
                 <div class="grid content-start gap-5">
                     <section aria-labelledby="library-heading" class="rounded-xl border border-slate-200 bg-white p-5 sm:p-7">

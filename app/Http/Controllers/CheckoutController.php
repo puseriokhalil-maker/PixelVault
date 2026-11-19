@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Artwork;
 use App\Models\Order;
 use App\Services\CartService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 
 class CheckoutController extends Controller
 {
@@ -36,11 +38,27 @@ class CheckoutController extends Controller
             ]);
 
             foreach ($items as $artwork) {
+                $lockedArtwork = Artwork::query()
+                    ->whereKey($artwork->id)
+                    ->lockForUpdate()
+                    ->firstOrFail();
+
+                if (! $lockedArtwork->is_published || $lockedArtwork->is_test_listing) {
+                    throw ValidationException::withMessages([
+                        'cart' => 'One of the artworks is no longer available.',
+                    ]);
+                }
+
                 $order->items()->create([
-                    'artwork_id' => $artwork->id,
-                    'title' => $artwork->title,
-                    'unit_amount' => $artwork->price_amount,
+                    'artwork_id' => $lockedArtwork->id,
+                    'title' => $lockedArtwork->title,
+                    'unit_amount' => $lockedArtwork->price_amount,
                     'quantity' => 1,
+                ]);
+
+                $lockedArtwork->update([
+                    'owner_id' => $request->user()->id,
+                    'is_published' => false,
                 ]);
             }
 

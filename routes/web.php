@@ -9,8 +9,10 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FriendController;
 use App\Http\Controllers\MyArtworkController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\OwnedNftController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [ArtworkController::class, 'index'])->name('home');
@@ -57,7 +59,13 @@ Route::middleware('auth')->group(function (): void {
     Route::post('/logout', LogoutController::class)->name('logout');
     Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
     Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
-
+    Route::get('/owned-nfts', [OwnedNftController::class, 'index'])->name('owned-nfts.index');
+    Route::post('/owned-nfts/{artwork:slug}/resell', [OwnedNftController::class, 'resell'])->name('owned-nfts.resell');
+    Route::post('/owned-nfts/{artwork:slug}/unlist', [OwnedNftController::class, 'unlist'])->name('owned-nfts.unlist');
+    Route::get('/friends', [FriendController::class, 'index'])->name('friends.index');
+    Route::post('/friends/{user}', [FriendController::class, 'store'])->name('friends.store');
+    Route::delete('/friends/{user}', [FriendController::class, 'destroy'])->name('friends.destroy');
+    Route::post('/friends/{friend}/trade', [FriendController::class, 'trade'])->name('friends.trade');
 });
 
 Route::middleware(['auth', 'can:view-admin-dashboard'])->group(function (): void {

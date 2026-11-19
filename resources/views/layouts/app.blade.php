@@ -19,6 +19,10 @@
         @yield('content')
     </main>
 
+    @auth
+        @include('components.social-dock')
+    @endauth
+
     <!-- Footer Component -->
     @include('components.footer')
 
