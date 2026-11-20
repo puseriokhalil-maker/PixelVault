@@ -131,6 +131,16 @@ class CartCheckoutTest extends TestCase
             'unit_amount' => 20000,
             'quantity' => 1,
         ]);
+        $this->assertDatabaseHas('artworks', [
+            'id' => $firstArtwork->id,
+            'owner_id' => $buyer->id,
+            'is_published' => false,
+        ]);
+        $this->assertDatabaseHas('artworks', [
+            'id' => $secondArtwork->id,
+            'owner_id' => $buyer->id,
+            'is_published' => false,
+        ]);
 
         $this->get(route('orders.show', $order))
             ->assertOk()

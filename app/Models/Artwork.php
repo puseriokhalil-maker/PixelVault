@@ -11,6 +11,7 @@ use Illuminate\Support\Str;
 
 #[Fillable([
     'artist_id',
+    'owner_id',
     'slug',
     'title',
     'description',
@@ -55,5 +56,10 @@ class Artwork extends Model
     public function artist(): BelongsTo
     {
         return $this->belongsTo(Artist::class);
+    }
+
+    public function owner(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'owner_id');
     }
 }

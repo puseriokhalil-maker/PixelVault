@@ -36,9 +36,34 @@
                 @can('view-admin-dashboard')
                     <a href="{{ route('admin.dashboard') }}" @class(['text-indigo-300' => request()->routeIs('admin.dashboard'), 'transition hover:text-indigo-300'])>Admin</a>
                 @endcan
-                <span class="flex h-7 w-7 items-center justify-center rounded-full bg-indigo-600 text-[10px] font-semibold" aria-label="Signed in as {{ auth()->user()->name }}">
-                    {{ mb_strtoupper(mb_substr(auth()->user()->name, 0, 1)) }}
-                </span>
+                <div class="relative" data-profile-menu>
+                    <button
+                        type="button"
+                        data-profile-trigger
+                        aria-haspopup="menu"
+                        aria-expanded="false"
+                        aria-label="Open profile menu for {{ auth()->user()->name }}"
+                        class="flex h-7 w-7 items-center justify-center rounded-full bg-indigo-600 text-[10px] font-semibold outline-none transition hover:ring-2 hover:ring-indigo-300 focus:ring-2 focus:ring-indigo-300"
+                    >
+                        {{ mb_strtoupper(mb_substr(auth()->user()->name, 0, 1)) }}
+                    </button>
+
+                    <div
+                        role="menu"
+                        data-profile-dropdown
+                        class="invisible absolute right-0 top-full z-50 mt-2 w-44 translate-y-1 rounded-lg border border-slate-200 bg-white p-1.5 text-slate-700 opacity-0 shadow-xl transition duration-150"
+                    >
+                        <a role="menuitem" href="{{ route('dashboard') }}" class="block rounded-md px-3 py-2 text-xs font-medium transition hover:bg-slate-100 hover:text-indigo-700">Overview</a>
+                        <a role="menuitem" href="{{ route('dashboard') }}#account-details-heading" class="block rounded-md px-3 py-2 text-xs font-medium transition hover:bg-slate-100 hover:text-indigo-700">My Profile</a>
+                        <a role="menuitem" href="{{ route('dashboard') }}#library-heading" class="block rounded-md px-3 py-2 text-xs font-medium transition hover:bg-slate-100 hover:text-indigo-700">My Purchases</a>
+                        <a role="menuitem" href="{{ route('owned-nfts.index') }}" class="block rounded-md px-3 py-2 text-xs font-medium transition hover:bg-slate-100 hover:text-indigo-700">Owned NFTs</a>
+                        <a role="menuitem" href="{{ route('artworks.mine') }}" class="block rounded-md px-3 py-2 text-xs font-medium transition hover:bg-slate-100 hover:text-indigo-700">My Listings</a>
+                        <a role="menuitem" href="{{ route('dashboard') }}#orders-heading" class="block rounded-md px-3 py-2 text-xs font-medium transition hover:bg-slate-100 hover:text-indigo-700">Transaction History</a>
+                        <a role="menuitem" href="{{ route('dashboard') }}#account-details-heading" class="block rounded-md px-3 py-2 text-xs font-medium transition hover:bg-slate-100 hover:text-indigo-700">Settings</a>
+                        <div class="my-1 border-t border-slate-100"></div>
+                        <a role="menuitem" href="{{ route('friends.index') }}" class="block rounded-md px-3 py-2 text-xs font-medium text-indigo-700 transition hover:bg-indigo-50">Add a Friend</a>
+                    </div>
+                </div>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit" class="rounded border border-slate-500/50 px-2 py-1 transition hover:bg-slate-700">Logout</button>
